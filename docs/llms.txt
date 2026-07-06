@@ -1,0 +1,59 @@
+# Vamo
+
+> **Vamo** is a straightforward, non opinionated, developer-centric HTTP client library for Rust.
+It offers a rich array of modern features—from flexible authentication and serialization formats
+to runtime compatibility and middleware support—while maintaining simplicity and ease of use.
+It’s especially well-suited for Rust projects that require a lightweight, efficient HTTP client
+without sacrificing control or extensibility.
+
+## Installation
+
+```toml
+[dependencies]
+deboa = { version = "0.0.9", features = ["http1", "tokio-rt"] }
+```
+
+## Quickstart
+
+```rust
+use deboa::{Client, request::get, Result};
+use deboa_extras::http::serde::json::JsonBody;
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+struct Post {
+    id: u64,
+    title: String,
+    body: String,
+}
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = Client::new();
+
+    let posts: Vec<Post> = get("https://jsonplaceholder.typicode.com/posts")
+        .send_with(&client)
+        .await?
+        .body_as(JsonBody, Post)?;
+
+    println!("First post: {}", posts[0].title);
+    Ok(())
+}
+```
+
+## Features
+
+See [vamo README](https://github.com/ararog/vamo/blob/main/README.md) and [vamo-macros README](https://github.com/ararog/vamo/blob/main/vamo-macros/README.md) for a comprehensive list of features.
+
+## Crates
+
+- [vamo](https://crates.io/crates/vamo)
+- [vamo_macros](https://crates.io/crates/vamo_macros)
+
+## Examples
+
+- [blog](https://github.com/ararog/deboa/blob/main/examples/blog): A simple blog application using Vamo. This example shows how to use
+use Vamo to quickly make request to fetch posts from a REST api.
+It also shows how to use DeboaCatcher trait to implement a simple middleware.
+
+## Blog Posts
