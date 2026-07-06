@@ -32,5 +32,5 @@ serde = "1.0.228"
 syn = { version = "2.0", features = ["full"] }
 quote = "1.0.41"
 http = "1.4.2"
-regex = "1.12.4"
+regex = { version = "1.12.4", default-features = false }
 titlecase = "3.6.0"
