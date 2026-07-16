@@ -167,9 +167,9 @@ dependencies = [
 
 [[package]]
 name = "deboa"
-version = "0.1.0-beta.21"
+version = "0.1.0-beta.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5411b434206f401b72f4561fd94042a903ca3bae25ec279f2e492dee6e3ed3cf"
+checksum = "a417624519eeb9962415b091c0444ff85f2df7556318b3bff347ac7c5d1eb960"
 dependencies = [
  "async-trait",
  "base64",
@@ -197,9 +197,9 @@ dependencies = [
 
 [[package]]
 name = "deboa-extras"
-version = "0.0.9-beta.14"
+version = "0.0.9-beta.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77b09cb4c1b1c33efdb3e6e1581c2885871440319f37b2b0a3b8a5b33cfc973c"
+checksum = "811e7b3bb5cd330554c90f0d120856b53692d49cb1152e07957f9857909a2f94"
 dependencies = [
  "bytes",
  "deboa",
@@ -1025,9 +1025,9 @@ dependencies = [
 
 [[package]]
 name = "rand"
-version = "0.10.1"
+version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d2e8e8bcc7961af1fdac401278c6a831614941f6164ee3bf4ce61b7edb162207"
+checksum = "c7f5fa3a058cd35567ef9bfa5e75732bee0f9e4c55fa90477bef2dfcdbc4be80"
 dependencies = [
  "chacha20",
  "getrandom 0.4.3",
@@ -1062,9 +1062,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.13.0"
+version = "1.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2a0e75113e14dc5acb068cd0786884f214f1312650a3d36d269f5c4f3cdee8a2"
+checksum = "f020237b6c8eed93db2e2cb53c00c60a8e1bc73da7d073199a1180401450218d"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1074,9 +1074,9 @@ dependencies = [
 
 [[package]]
 name = "regex-automata"
-version = "0.4.15"
+version = "0.4.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f388202e4b80542a0921078cc23b6333bcf1409c1e3f86404cae4766a6131db"
+checksum = "8fcfdb36bda0c880c5931cdc7a2bcdc8ba4556847b9d912bca70bc94708711ad"
 dependencies = [
  "aho-corasick",
  "memchr",
