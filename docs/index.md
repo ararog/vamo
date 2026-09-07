@@ -10,7 +10,7 @@ permalink: /
 </div>
 
 [![crates.io](https://img.shields.io/crates/v/vamo?style=flat-square)](https://crates.io/crates/vamo)
-[![Build Status](https://github.com/ararog/vamo/actions/workflows/rust.yml/badge.svg?event=push)](https://github.com/ararog/vamo/actions/workflows/rust.yml)
+[![Build Status](https://github.com/deboa-client/vamo/actions/workflows/rust.yml/badge.svg?event=push)](https://github.com/deboa-client/vamo/actions/workflows/rust.yml)
 [![Documentation](https://docs.rs/vamo/badge.svg)](https://docs.rs/vamo/latest/vamo)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
