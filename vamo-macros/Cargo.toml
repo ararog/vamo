@@ -34,3 +34,7 @@ quote = "1.0.41"
 regex = { version = "1.12.4", default-features = false }
 titlecase = "3.6.0"
 vamo = { workspace = true }
+
+[dev-dependencies]
+trybuild = "1.0.111"
+deboa-extras = { workspace = true, default-features = false }

@@ -146,6 +146,10 @@ pub fn resource(input: TokenStream) -> TokenStream {
         }
     }
 
+    if rid_field.is_none() {
+        panic!("rid is required");
+    }
+
     if resource_name.is_none() {
         panic!("resource name is required");
     }
