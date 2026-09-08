@@ -7,7 +7,9 @@ use syn::{
 
 use crate::bora::parser::operations::{
     delete::DeleteStruct, get::GetStruct, patch::PatchStruct, post::PostStruct, put::PutStruct,
+    query::QueryStruct,
 };
+
 pub struct BoraApi {
     pub operations: Punctuated<OperationEnum, Token![,]>,
 }
@@ -31,15 +33,16 @@ impl Parse for BoraApi {
 
 #[allow(non_camel_case_types)]
 pub enum OperationEnum {
+    delete(DeleteStruct),
     get(GetStruct),
     post(PostStruct),
     put(PutStruct),
-    delete(DeleteStruct),
     patch(PatchStruct),
+    query(QueryStruct),
 }
 
-const METHODS: [&str; 9] =
-    ["get", "post", "put", "delete", "patch", "head", "options", "connect", "trace"];
+const METHODS: [&str; 10] =
+    ["get", "query", "post", "put", "delete", "patch", "head", "options", "connect", "trace"];
 
 impl Parse for OperationEnum {
     fn parse(input: ParseStream) -> Result<Self, syn::Error> {
@@ -51,6 +54,7 @@ impl Parse for OperationEnum {
                 .as_str()
             {
                 "get" => Ok(OperationEnum::get(GetStruct::parse(input)?)),
+                "query" => Ok(OperationEnum::query(QueryStruct::parse(input)?)),
                 "post" => Ok(OperationEnum::post(PostStruct::parse(input)?)),
                 "put" => Ok(OperationEnum::put(PutStruct::parse(input)?)),
                 "delete" => Ok(OperationEnum::delete(DeleteStruct::parse(input)?)),

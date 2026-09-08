@@ -8,6 +8,7 @@ use crate::bora::{
             patch::{PatchFieldEnum, PatchStruct},
             post::{PostFieldEnum, PostStruct},
             put::{PutFieldEnum, PutStruct},
+            query::{QueryFieldEnum, QueryStruct},
         },
     },
     token::utils::extract_params_from_path,
@@ -153,6 +154,70 @@ fn post_operation(post: &PostStruct, acc: &mut (&mut TS2, &mut TS2), unit_type: 
                 res_body_type = &res_body.value;
             }
             PostFieldEnum::format(format) => {
+                let format_value = format.value.value();
+                let title_format_value = titlecase(&format_value);
+                format_name = format_ident!("{}", format_value);
+                format_module = format_ident!("{}Body", title_format_value);
+            }
+        });
+
+    if acc.0.is_empty() {
+        acc.0
+            .extend(quote! {
+                use deboa_extras::serde::#format_name::{#format_module};
+            });
+    }
+
+    acc.1
+        .extend(impl_function(
+            &method,
+            &format_module,
+            &api_path,
+            &method_name,
+            &api_params,
+            &req_body_type,
+            res_body_type,
+        ));
+}
+
+fn query_operation(post: &QueryStruct, acc: &mut (&mut TS2, &mut TS2), unit_type: &Type) {
+    let fields = &post.fields;
+
+    let method = parse_str::<syn::Ident>("post").unwrap();
+    let mut method_name = Ident::new("ident", Span::call_site());
+    let mut api_path = LitStr::new("lit", Span::call_site());
+    let mut req_body_type = Type::Verbatim(TS2::new());
+    let mut res_body_type = unit_type;
+    let mut api_params = TS2::new();
+    let mut format_name = Ident::new("ident", Span::call_site());
+    let mut format_module = Ident::new("ident", Span::call_site());
+
+    fields
+        .iter()
+        .for_each(|field| match field {
+            QueryFieldEnum::name(name) => {
+                method_name = Ident::new(
+                    name.value
+                        .value()
+                        .as_str(),
+                    Span::call_site(),
+                );
+            }
+            QueryFieldEnum::path(path) => {
+                let path_info = extract_params_from_path(&path.value);
+
+                api_path = path_info.1;
+                api_params = path_info.0;
+            }
+            QueryFieldEnum::req_body(req_body) => {
+                req_body_type = req_body
+                    .value
+                    .clone();
+            }
+            QueryFieldEnum::res_body(res_body) => {
+                res_body_type = &res_body.value;
+            }
+            QueryFieldEnum::format(format) => {
                 let format_value = format.value.value();
                 let title_format_value = titlecase(&format_value);
                 format_name = format_ident!("{}", format_value);
@@ -384,6 +449,7 @@ pub fn bora(attr: TokenStream, item: TokenStream) -> TokenStream {
         .fold((&mut imports, &mut struct_impl), |mut acc, op| {
             match op {
                 OperationEnum::get(get) => get_operation(get, &mut acc),
+                OperationEnum::query(query) => query_operation(query, &mut acc, &unit_type),
                 OperationEnum::post(post) => post_operation(post, &mut acc, &unit_type),
                 OperationEnum::put(put) => put_operation(put, &mut acc, &unit_type),
                 OperationEnum::patch(patch) => patch_operation(patch, &mut acc, &unit_type),

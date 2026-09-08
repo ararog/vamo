@@ -69,8 +69,8 @@
 //!
 //! ### Struct Attributes
 //!
-//! - `#[name("path")]`: Specify the resource name, rest endpoint (e.g., `posts`, `users`)
-//! - `#[body_type(Type)]`: Specify the request/response body type (e.g., `JsonBody`, `XmlBody`)
+//! - `#[name("path")]`: Specify the resource name, rest endpoint (e.g., `posts`, `users`), optional.
+//! - `#[body_type(Type)]`: Specify the request/response body type (e.g., `JsonBody`, `XmlBody`), required.
 //!
 //! ### Field Attributes
 //!
@@ -85,6 +85,7 @@
 //! - `body_type()`: Get the resource body type
 
 use core::panic;
+use pluralizer::pluralize;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{parse_macro_input, Attribute, Ident, LitStr};
@@ -100,7 +101,7 @@ fn extract_path(attr: &Attribute) -> Option<String> {
 fn extract_ident(attr: &Attribute) -> Option<Ident> {
     let ident = attr.parse_args::<Ident>();
     if let Err(e) = ident {
-        panic!("failed to parse path: {}", e);
+        panic!("failed to parse ident: {}", e);
     }
     Some(ident.unwrap())
 }
@@ -151,7 +152,10 @@ pub fn resource(input: TokenStream) -> TokenStream {
     }
 
     if resource_name.is_none() {
-        panic!("resource name is required");
+        let name = name
+            .to_string()
+            .to_ascii_lowercase();
+        resource_name = Some(pluralize(&name, 2, false));
     }
 
     if body_type.is_none() {

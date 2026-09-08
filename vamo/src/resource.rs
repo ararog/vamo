@@ -263,4 +263,30 @@ where
     /// let response = vamo.remove(&mut post)?.send().await?;
     /// ```
     fn remove(&mut self, resource: &mut R) -> Result<&mut Self>;
+    /// Query resource(s) to REST endpoint
+    ///
+    /// # Arguments
+    ///
+    /// * `resource` - The resource to be posted.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<&mut Self>` - The result of the post operation.
+    ///
+    /// # Example
+    ///
+    /// ```rust,compile_fail
+    /// use vamo::{Vamo, resource::{Resource, ResourceMethod}};
+    ///
+    /// let mut vamo = Vamo::new("https://api.example.com")?;
+    /// // Assuming Post is a Resource
+    /// let mut post = Post {
+    ///     id: 1,
+    ///     title: "Some title".to_string(),
+    ///     body: "Some body".to_string(),
+    ///     user_id: 1,
+    /// };
+    /// let response = vamo.query(&mut post)?.send().await?;
+    /// ```
+    fn query(&mut self, resource: &mut R) -> Result<&mut Self>;
 }

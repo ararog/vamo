@@ -455,4 +455,14 @@ where
         self.method = Method::DELETE;
         Ok(self)
     }
+
+    fn query(&mut self, resource: &mut R) -> Result<&mut Self> {
+        self.path = format!("/{}", resource.name());
+        self.method = Method::QUERY;
+        self.body = resource
+            .body_type()
+            .serialize(&resource)?
+            .into();
+        Ok(self)
+    }
 }
