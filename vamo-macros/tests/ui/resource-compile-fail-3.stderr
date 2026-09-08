@@ -4,4 +4,4 @@ error: proc-macro derive panicked
 4 | #[derive(Debug, Serialize, Deserialize, Resource)]
   |                                         ^^^^^^^^
   |
-  = help: message: resource name is required
+  = help: message: only structs are supported
